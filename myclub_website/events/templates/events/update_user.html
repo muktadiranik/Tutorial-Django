@@ -1,0 +1,27 @@
+{% extends "events/base.html" %}
+{% block content %}
+
+
+<center>
+    <h1>Add User To Database</h1>
+    <br/>
+    {% if submitted %}
+    <h3>User Added Successfully!</h3>
+
+    {% else %}    
+    <form action="" method="post">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+
+        <button type="submit" class="btn btn-primary">Update</button>
+
+        
+    </form>
+    {% endif %}
+</center>
+    
+
+
+{% endblock %}

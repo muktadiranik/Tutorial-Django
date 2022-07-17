@@ -1,0 +1,93 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+<center>
+
+  <!-- authentication message -->
+  {% if messages %}
+
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    <strong>{{ message }}</strong>
+    {% endfor %}
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <br>
+
+  {% endif %}
+
+  <h1>Hello {{ name }}! Events for {{ month }} {{ year }}</h1>
+  <br />
+  {{ calendar|safe }}
+  <br />
+  {{ current_date }}/{{ current_month }}/{{ current_year }}
+  <br />
+  {{ time }}
+
+</center>
+<br>
+{% for event in event_list %}
+<div class="card">
+    <div class="card-header">
+        <h2>{{ event }}</h2>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Venue: {{ event.venue }}</h5>
+        <p class="card-text">
+
+        <ul>
+            <li><strong>Date: </strong>{{ event.event_date }}</li>
+            <li><strong>Venue: </strong>{{ event.venue }}</li>
+            <li><strong>Venue Details: </strong><br />
+
+                <strong>Name: </strong>{{ event.venue.name }}
+                <br />
+                <strong>Address: </strong>{{ event.venue.address }}
+                <br />
+                <strong>Zip Code: </strong>{{ event.venue.zip_code }}
+                <br />
+                <strong>Phone: </strong>{{ event.venue.phone }}
+                <br />
+                <strong>Website: </strong>{{ event.venue.website }}
+                <br />
+                <strong>Email Address: </strong>{{ event.venue.email_address }}
+
+            </li>
+            <li><strong>Manager: </strong>{{ event.manager }}</li>
+            <li><strong>Description: </strong>{{ event.description }}</li>
+
+            <li><strong>Attendees: </strong><br />
+                {% for user in event.attendees.all %}
+                {{ user }}
+                <br />
+                {% endfor %}
+            </li>
+        </ul>
+        </p>
+
+    </div>
+    {% if user.is_authenticated %}
+    {% if user == event.manager %}
+    <div class="card-footer">
+        <table class="table table-borderless">
+            <tr>
+                <td class="col-1" align="left">
+                    <a href="{% url 'update_event' event.id %}">
+                        <button class="btn btn-primary">Update</button>
+                    </a>
+                </td>
+                <td class="col-1" align="right">
+                    <a href="{% url 'delete_event' event.id %}">
+                        <button class="btn btn-danger">Delete</button>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+<br />
+{% endfor %}
+{% endblock %}

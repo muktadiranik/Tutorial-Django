@@ -1,0 +1,30 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+<div class="container col-4">
+    <h2>Custom Calendar</h2>
+    <form action="{% url 'custom_calendar' %}" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            
+            <select name="month" class="form-select" id="inputGroupSelect01">
+                {% for month in month_list %}
+                    <option value="{{ month }}">{{ month }}</option>
+                {% endfor %}
+
+            </select>
+            </div>
+            <div class="input-group mb-3">
+            <select name="year" class="form-select" id="inputGroupSelect01">
+                {% for year in year_list %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    
+</div>
+
+{% endblock %}

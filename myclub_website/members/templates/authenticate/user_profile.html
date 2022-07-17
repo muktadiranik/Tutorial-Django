@@ -1,0 +1,76 @@
+{% extends 'events/base.html' %}
+{% block content %}
+<div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <h1>User Profile</h1>
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <!-- user info -->
+            <br>
+            <div class="card">
+
+                <div class="card-header">
+                    User Details
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ user }}</h5>
+                    <p class="card-text">
+                    <ul>
+                        <li>
+                            {{ user.first_name }}
+                        </li>
+                        <li>
+                            {{ user.last_name }}
+                        </li>
+                        <li>
+                            {{ user_info.birthday }}
+                        </li>
+                        <li>
+                            {{ user.email }}
+                        </li>
+                        <li>
+                            {{ user_info.address }}
+                        </li>
+                        <li>
+                            {{ user_info.zip_code }}
+                        </li>
+                        <li>
+                            {{ user_info.phone }}
+                        </li>
+                        <li>
+                            {{ user_info.website }}
+                        </li>
+                        <li>
+                            {{ user_info.bio }}
+                        </li>
+                    </ul>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            {% if user_info.user_image %}
+            <!-- user image -->
+            <img src="{{ user_info.user_image.url }}" alt="" width="400" height="600" class="rounded">
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <center>
+        <a href="{% url 'update_user_profile' user %}">
+            <button class="btn btn-success" type="submit">Update</button>
+        </a>
+    </center>
+
+
+</div>
+
+{% endblock %}

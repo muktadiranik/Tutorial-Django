@@ -1,0 +1,26 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Search Result</h1>
+    <br/>
+    {% if search_keyword %}
+        <h6>You Searched For '{{ search_keyword}}'</h6>
+        <br/>
+        <table class="table table-hover">
+            {% for venue in venue_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'show_venue' venue.id %}">{{ venue }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h6>No Search Keyword Found</h6>
+    {% endif %}
+</div>
+
+
+{% endblock %}

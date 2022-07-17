@@ -1,0 +1,52 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>User Registration</h1>
+    <br>
+    
+    {% if messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+        <strong>{{ message }}</strong>
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <br>
+    {% endif %}
+
+    {% if form.errors %}
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        
+        <strong>Error!!!</strong>
+
+        
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <br>
+
+    {% endif %}
+    
+    <form action="{% url 'register_user' %}" method="post" enctype="multipart/form-data">
+        
+        <div class="row justify-content-center">
+            <div class="col-6">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <div class="col-6">
+                {% csrf_token %}
+                {{ additional_form.as_p }}
+            </div>
+        </div>
+        <center>
+            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        </center>
+        
+    </form>
+</div>
+
+
+
+{% endblock %}

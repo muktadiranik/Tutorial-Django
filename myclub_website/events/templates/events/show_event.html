@@ -1,0 +1,50 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+
+<br />
+
+<div class="card">
+    <div class="card-header">
+        Event
+    </div>
+    <div class="card-body">
+        <h2 class="card-title">{{ event }}</h2>
+        <p class="card-text">
+              
+            <ul>
+                <li><strong>Date: </strong>{{ event.event_date }}</li>
+                <li><strong>Venue: </strong>{{ event.venue }}</li>
+                <li><strong>Venue Details: </strong><br/>
+                    
+                    <strong>Name: </strong>{{ event.venue.name }}
+                    <br/>
+                    <strong>Address: </strong>{{ event.venue.address }}
+                    <br/>
+                    <strong>Zip Code: </strong>{{ event.venue.zip_code }}
+                    <br/>
+                    <strong>Phone: </strong>{{ event.venue.phone }}
+                    <br/>
+                    <strong>Website: </strong>{{ event.venue.website }}
+                    <br/>
+                    <strong>Email Address: </strong>{{ event.venue.email_address }}
+    
+                </li>
+                <li><strong>Manager: </strong>{{ event.manager }}</li>
+                <li><strong>Description: </strong>{{ event.description }}</li>
+    
+                <li><strong>Attendees: </strong><br/>
+                    {% for user in event.attendees.all %}
+                    {{ user }}
+                    <br/>
+                    {% endfor %}
+                </li>
+            </ul>
+          </p>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

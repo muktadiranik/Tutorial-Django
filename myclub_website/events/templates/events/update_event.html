@@ -1,0 +1,20 @@
+{% include "events/base.html" %}
+
+{% block content %}
+<center>
+    {% if user == event.manager %}
+    <div class="container">
+        <h1>Update Event</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        You Must Be The Event Manager To Update This Event!!!
+    </div>
+    {% endif %}
+</center>
+{% endblock %}

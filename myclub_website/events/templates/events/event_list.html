@@ -1,0 +1,162 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+
+<h1>Events</h1>
+<br />
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor%}
+{% endif %}
+
+<!-- {% for event in event_list %} -->
+<!-- {% endfor %} -->
+{% for event in events %}
+<div class="card">
+    <div class="card-header">
+        <h2>{{ event }}</h2>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Venue: {{ event.venue }}</h5>
+        <p class="card-text">
+
+        <ul>
+            <li><strong>Date: </strong>{{ event.event_date }}</li>
+            <li><strong>Days Till: </strong>{{ event.days_till }}</li>
+            <li><strong>Event State: </strong>{{ event.is_past }}</li>
+            <li><strong>Venue: </strong>{{ event.venue }}</li>
+            <li><strong>Venue Details: </strong><br />
+
+                <strong>Name: </strong>{{ event.venue.name }}
+                <br />
+                <strong>Address: </strong>{{ event.venue.address }}
+                <br />
+                <strong>Zip Code: </strong>{{ event.venue.zip_code }}
+                <br />
+                <strong>Phone: </strong>{{ event.venue.phone }}
+                <br />
+                <strong>Website: </strong>{{ event.venue.website }}
+                <br />
+                <strong>Email Address: </strong>{{ event.venue.email_address }}
+
+            </li>
+            <li><strong>Manager: </strong>{{ event.manager }}</li>
+            <li><strong>Description: </strong>{{ event.description }}</li>
+
+            <li><strong>Attendees: </strong><br />
+                {% for user in event.attendees.all %}
+                {{ user }}
+                <br />
+                {% endfor %}
+            </li>
+        </ul>
+        </p>
+
+    </div>
+    {% if user.is_authenticated %}
+    {% if user == event.manager %}
+    <div class="card-footer">
+        <table class="table table-borderless">
+            <tr>
+                <td class="col-1" align="left">
+                    <a href="{% url 'update_event' event.id %}">
+                        <button class="btn btn-primary">Update</button>
+                    </a>
+                </td>
+                <td class="col-1" align="right">
+                    <a href="{% url 'delete_event' event.id %}">
+                        <button class="btn btn-danger">Delete</button>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+<br />
+{% endfor %}
+
+<div class="col-2">
+    <table class="table table-bordered">
+        <tr>
+            <td>
+                Has Previous
+            </td>
+            <td>
+                {{ events.has_previous }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Has Next
+            </td>
+            <td>
+                {{ events.has_next }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Current Page
+            </td>
+            <td>
+                {{ events.number }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Number of Pages
+            </td>
+            <td>
+                {{ events.paginator.num_pages }}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!-- pagination -->
+<hr>
+{% if events.has_previous %}
+
+<a href="?page=1"><button type="button" class="btn btn-primary">&laquo; First</button></a>
+<a href="?page={{ events.previous_page_number }}"><button type="button" class="btn btn-primary">Previous</button></a>
+{% endif %}
+{% if events.has_next %}
+<a href="?page={{ events.next_page_number }}"><button type="button" class="btn btn-primary">Next</button></a>
+<a href="?page={{ events.paginator.num_pages }}"><button type="button" class="btn btn-primary">Last &raquo;</button></a>
+{% endif %}
+<br>
+Page {{ events.number }} of {{ events.paginator.num_pages }}
+<br>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% if events.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ events.previous_page_number }}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link">Previous</a>
+        </li>
+        {% endif %}
+        {% for i in count %}
+        <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+        {% endfor %}
+
+        {% if events.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ events.next_page_number }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

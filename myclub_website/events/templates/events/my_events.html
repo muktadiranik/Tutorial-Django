@@ -1,0 +1,91 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <!-- authentication message -->
+    {% if messages %}
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+        <strong>{{ message }}</strong>
+        {% endfor %}
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <br>
+
+    {% endif %}
+
+    <h1>My Events</h1>
+    <br>
+    {% for event in page_obj %}
+    <div class="card">
+        <div class="card-header">
+            <h2>{{ event }}</h2>
+        </div>
+
+        <div class="card-body">
+            <h5 class="card-title">Venue: {{ event.venue }}</h5>
+            <p class="card-text">
+
+            <ul>
+                <li><strong>Date: </strong>{{ event.event_date }}</li>
+                <li><strong>Venue: </strong>{{ event.venue }}</li>
+                <li><strong>Venue Details: </strong><br />
+
+                    <strong>Name: </strong>{{ event.venue.name }}
+                    <br />
+                    <strong>Address: </strong>{{ event.venue.address }}
+                    <br />
+                    <strong>Zip Code: </strong>{{ event.venue.zip_code }}
+                    <br />
+                    <strong>Phone: </strong>{{ event.venue.phone }}
+                    <br />
+                    <strong>Website: </strong>{{ event.venue.website }}
+                    <br />
+                    <strong>Email Address: </strong>{{ event.venue.email_address }}
+
+                </li>
+                <li><strong>Manager: </strong>{{ event.manager }}</li>
+                <li><strong>Description: </strong>{{ event.description }}</li>
+
+                <li><strong>Attendees: </strong><br />
+                    {% for user in event.attendees.all %}
+                    {{ user }}
+                    <br />
+                    {% endfor %}
+                </li>
+            </ul>
+            </p>
+
+        </div>
+    </div>
+    <br>
+
+    {% endfor %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_pbj.previous_page_number }}">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+            {% endif %}
+
+            {% for i in count %}
+            <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}
